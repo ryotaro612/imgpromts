@@ -27,12 +27,6 @@
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "cpu": "4096",
-    "memory": "2048",
-    "tags": [
-        {
-            "key": "",
-            "value": ""
-        }
-    ]
+    "cpu": "2048",
+    "memory": "4096"
 }
