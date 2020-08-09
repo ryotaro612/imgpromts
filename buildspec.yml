@@ -7,8 +7,6 @@ version: 0.2
 phases:
   pre_build:
     commands:
-
-      - export
         #- export AWS_CONFIG_FILE=config
         #
         #    nora
@@ -17,22 +15,23 @@ phases:
         #      - IMAGE_TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}
         #
         # initial-server
-        #- $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
         #- IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - $(aws ecr get-login --registry-ids 644426536299 --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
-      - docker build -t 644426536299.dkr.ecr.us-east-1.amazonaws.com/initial-server:latest .
-      - docker push 644426536299.dkr.ecr.us-east-1.amazonaws.com/initial-server:latest
+      - docker build -t 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest .
+      - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest
   post_build:
     commands:
-      - echo "doge"
+      - docker tag 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest 644426536299.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest
+      - $(aws ecr get-login --registry-ids 644426536299 --no-include-email --region $AWS_DEFAULT_REGION)
+      - docker push 644426536299.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest
       #       - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/initial-server-api:$IMAGE_TAG 
       # - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/initial-server-batch:$IMAGE_TAG
       #- docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/crunchbase/daily-report-fetcher:$IMAGE_TAG
-      # - printf '{"Version":"1.0","ImageURI":"%s"}' 247302787221.dkr.ecr.us-east-1.amazonaws.com/initial-server-api:$IMAGE_TAG > imageDetail.json
-#artifacts:
-#  files:
-#    - imageDetail.json
-#    - deploy/taskdef.json
-#    - deploy/appspec.yml
+      - printf '{"Version":"1.0","ImageURI":"%s"}' 247302787221.dkr.ecr.us-east-1.amazonaws.com/initial-server-api:latest > imageDetail.json
+artifacts:
+  files:
+    - imageDetail.json
+    - taskdef.json
+    - appspec.yml
