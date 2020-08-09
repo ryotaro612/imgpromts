@@ -22,8 +22,8 @@ phases:
       - $(aws ecr get-login --registry-ids 644426536299 --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
-      - docker build -t 644426536299.dkr.ecr.us-east-1.amazonaws.com/hello-server:latest .
-      - docker push 644426536299.dkr.ecr.us-east-1.amazonaws.com/hello-server:latest
+      - docker build -t 644426536299.dkr.ecr.us-east-1.amazonaws.com/initial-server:latest .
+      - docker push 644426536299.dkr.ecr.us-east-1.amazonaws.com/initial-server:latest
   post_build:
     commands:
       - echo "doge"
