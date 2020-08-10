@@ -12,24 +12,23 @@ phases:
         #    nora
         #      - $(aws ecr get-login --registry-ids ${REGISTRY_IDS} --no-include-email --profile prd-account-role)
         #      - REPOSITORY_URI=${REGISTRY_IDS}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}
-        #      - IMAGE_TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}
+      - IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
         #
         # initial-server
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-        #- IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
   build:
     commands:
-      - docker build -t 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest .
-      - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest
+      - docker build -t 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG .
+      - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG
   post_build:
     commands:
-      - docker tag 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest 644426536299.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest
+      - docker tag 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG 644426536299.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG
       - $(aws ecr get-login --registry-ids 644426536299 --no-include-email --region $AWS_DEFAULT_REGION)
-      - docker push 644426536299.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest
+      - docker push 644426536299.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG
       #       - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/initial-server-api:$IMAGE_TAG 
       # - docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/initial-server-batch:$IMAGE_TAG
       #- docker push 247302787221.dkr.ecr.us-east-1.amazonaws.com/crunchbase/daily-report-fetcher:$IMAGE_TAG
-      - printf '{"Version":"1.0","ImageURI":"%s"}' 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:latest > imageDetail.json
+      - printf '{"Version":"1.0","ImageURI":"%s"}' 247302787221.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG > imageDetail.json
 artifacts:
   files:
     - imageDetail.json
