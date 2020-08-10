@@ -5,5 +5,5 @@ Resources:
       Properties:
         TaskDefinition: <TASK_DEFINITION>
         LoadBalancerInfo:
-          ContainerName: "hello-server-container"
-          ContainerPort: 80
+          ContainerName: "qz-edge-api"
+          ContainerPort: 3000
