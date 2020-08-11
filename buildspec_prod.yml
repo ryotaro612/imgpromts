@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - ACCOUNT_ID=${CODEBUILD_BUILD_ARN} && IFS=':' && set -- $ACCOUNT_ID && ACCOUNT_ID=$5
+  build:
+    commands:
+      - printf '{"Version":"1.0","ImageURI":"%s"}' ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/qz-edge-api:$IMAGE_TAG > imageDetail.json
+artifacts:
+  files:
+    - imageDetail.json
+    - taskdef.json
+    - appspec.yaml
