@@ -12,7 +12,7 @@ var port = process.env.PORT || 3000; // port番号を指定
 // GET http://localhost:3000/api/v1/
 app.get('/v1/message',function(req,res){
     res.json({
-        message: "doge"
+        message: "doge wow"
     });
 });
 app.get('/v1/health',function(req,res){
